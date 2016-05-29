@@ -16,69 +16,70 @@ public class ExecuteServiceImpl implements ExecuteService {
 	public String execute(String code, String param) throws RemoteException {
 		// TODO Auto-generated method stub
 
-				// Transfer code into an ArrayList.
-				char[] codes = code.toCharArray();
+		// Transfer code into an ArrayList.
+		char[] codes = code.toCharArray();
 
-				// Transfer param into characters.
-				char[] params = param.toCharArray();
+		// Transfer param into characters.
+		char[] params = param.toCharArray();
 
-				int[] stack = new int[1024];
-				int stackPtr = 0;
-				ArrayList<Integer> loopPtr = new ArrayList<Integer>();
-				int paramPtr = 0;
-				int codePtr = 0;
-				String res = "";
+		int[] stack = new int[1024];
+		int stackPtr = 0;
+		ArrayList<Integer> loopPtr = new ArrayList<Integer>();
+		int paramPtr = 0;
+		int codePtr = 0;
+		String res = "";
 
-				while (codePtr < codes.length) {
-					switch (codes[codePtr]) {
-					case ',':
-						stack[stackPtr] = params[paramPtr++];
+		while (codePtr < codes.length) {
+			switch (codes[codePtr]) {
+			case ',':
+				stack[stackPtr] = params[paramPtr];
+				paramPtr++;
+				codePtr++;
+				break;
+			case '.':
+				res += (char) stack[stackPtr];
+				codePtr++;
+				break;
+			case '+':
+				stack[stackPtr]++;
+				codePtr++;
+				break;
+			case '-':
+				stack[stackPtr]--;
+				codePtr++;
+				break;
+			case '>':
+				stackPtr++;
+				codePtr++;
+				break;
+			case '<':
+				stackPtr--;
+				codePtr++;
+				break;
+			case '[':
+				if (stack[stackPtr] == 0) {
+					codePtr++;
+					while (codes[codePtr] != ']') {
 						codePtr++;
-						break;
-					case '.':
-						res += (char) stack[stackPtr];
-						codePtr++;
-						break;
-					case '+':
-						stack[stackPtr]++;
-						codePtr++;
-						break;
-					case '-':
-						stack[stackPtr]--;
-						codePtr++;
-						break;
-					case '>':
-						stackPtr++;
-						codePtr++;
-						break;
-					case '<':
-						stackPtr--;
-						codePtr++;
-						break;
-					case '[':
-						if (stack[stackPtr] == 0) {
-							codePtr++;
-							while (codes[codePtr] != ']') {
-								codePtr++;
-							}
-							codePtr++;
-						} else {
-							loopPtr.add(codePtr);
-							codePtr++;
-						}
-						break;
-					case ']':
-						if (stack[stackPtr] != 0) {
-							codePtr = loopPtr.get(loopPtr.size() - 1);
-						} else {
-							codePtr++;
-							loopPtr.remove(loopPtr.size() - 1);
-						}
-						break;
 					}
+					codePtr++;
+				} else {
+					loopPtr.add(codePtr);
+					codePtr++;
 				}
+				break;
+			case ']':
+				if (stack[stackPtr] != 0) {
+					codePtr = loopPtr.get(loopPtr.size() - 1) + 1;
+				} else {
+					codePtr++;
+					loopPtr.remove(loopPtr.size() - 1);
+				}
+				break;
+			}
+		}
 
-				return res;
+		return res;
 	}
 
 }
