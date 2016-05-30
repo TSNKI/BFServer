@@ -39,7 +39,6 @@ public class IOServiceImpl implements IOService {
 			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("File does not exist!");
 		}
 		return res;
 	}
