@@ -10,7 +10,7 @@ import serviceImpl.ExecuteServiceImpl;
 import serviceImpl.IOServiceImpl;
 import serviceImpl.UserServiceImpl;
 
-public class DataRemoteObject extends UnicastRemoteObject implements IOService, UserService,ExecuteService{
+public class DataRemoteObject extends UnicastRemoteObject implements IOService, UserService, ExecuteService {
 	/**
 	 * 
 	 */
@@ -18,6 +18,7 @@ public class DataRemoteObject extends UnicastRemoteObject implements IOService, 
 	private IOService iOService;
 	private UserService userService;
 	private ExecuteService executeService;
+
 	protected DataRemoteObject() throws RemoteException {
 		iOService = new IOServiceImpl();
 		userService = new UserServiceImpl();
@@ -25,19 +26,19 @@ public class DataRemoteObject extends UnicastRemoteObject implements IOService, 
 	}
 
 	@Override
-	public boolean writeFile(String file, String userId, String fileName) throws RemoteException{
+	public boolean writeFile(String file, String userId, String fileName) throws RemoteException {
 		// TODO Auto-generated method stub
 		return iOService.writeFile(file, userId, fileName);
 	}
 
 	@Override
-	public String readFile(String userId, String fileName) throws RemoteException{
+	public String readFile(String userId, String fileName) throws RemoteException {
 		// TODO Auto-generated method stub
 		return iOService.readFile(userId, fileName);
 	}
 
 	@Override
-	public String readFileList(String userId) throws RemoteException{
+	public String readFileList(String userId) throws RemoteException {
 		// TODO Auto-generated method stub
 		return iOService.readFileList(userId);
 	}
@@ -58,6 +59,12 @@ public class DataRemoteObject extends UnicastRemoteObject implements IOService, 
 	public String execute(String code, String param) throws RemoteException {
 		// TODO Auto-generated method stub
 		return executeService.execute(code, param);
+	}
+
+	@Override
+	public boolean register(String username, String password) throws RemoteException {
+		// TODO Auto-generated method stub
+		return userService.register(username, password);
 	}
 
 }

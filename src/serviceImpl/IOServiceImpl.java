@@ -50,7 +50,8 @@ public class IOServiceImpl implements IOService {
 		String res = "";
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].getName().startsWith(userId)) {
-				res += files[i].getName() + "\n";
+				String[] temp = files[i].getName().split("_");
+				res += temp[1] + "\n";
 			}
 		}
 		return res;
